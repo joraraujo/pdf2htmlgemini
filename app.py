@@ -1,8 +1,8 @@
 import base64
-import uuid
 import streamlit as st
 from google import genai
 from google.genai import types
+from google.genai.types import GenerationConfig
 from dotenv import load_dotenv
 import os
 
@@ -52,8 +52,15 @@ if uploaded_file:
                                         7. **Screen readers**: Use ARIA where appropriate (aria-label, aria-describedby, aria-live). All icons must have labels.
                                         8. **Forms**: Associate <label> with inputs. Use aria-invalid and show visible error messages. Provide clear feedback.
                                         9. **Validation**: HTML must be valid (W3C). Must pass tools like WAVE, axe, Lighthouse. Target: WCAG 2.1 AA.
-                                        10.**Output**: Only return the final HTML, ready for rendering without the ```html block.""" )
+                                        10. **Output**: Return only the final HTML without the html block indicator '```html ```'.""" )
             ]
+        )
+
+        generation_config = GenerationConfig(
+            temperature=0,
+            top_p=1,
+            top_k=1,
+            max_output_tokens=65536,
         )
 
         output_html = ""
@@ -64,6 +71,7 @@ if uploaded_file:
                     model="gemini-2.5-flash-preview-04-17",
                     contents=contents,
                     config=config,
+                    generation_config=generation_config,
                 ):
                     output_html += chunk.text
                 return output_html
@@ -88,7 +96,7 @@ if uploaded_file:
 #################################################################################################################
 
     if html_result:
-        file_name = f"{uploaded_file.name}.html"
+        file_name = os.path.splitext(uploaded_file.name)[0] + ".html"
         st.success("Conversão concluída!")
         st.download_button(
             label="Baixar arquivo HTML",

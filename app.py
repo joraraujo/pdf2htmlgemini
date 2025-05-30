@@ -37,7 +37,6 @@ if uploaded_file:
         ]
 
         config = types.GenerateContentConfig(
-            max_output_tokens=65536,
             temperature=0,
             response_mime_type="text/plain",
             system_instruction=[

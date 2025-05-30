@@ -65,7 +65,14 @@ if uploaded_file:
                     config=config,
                 ):
                     output_html += chunk.text
-                return output_html
+                
+                # Remove o indicador de bloco HTML se presente
+                if "```html" in output_html:
+                    output_html = output_html.replace("```html", "")
+                if "```" in output_html:
+                    output_html = output_html.replace("```", "")
+                
+                return output_html.strip()
 
             except Exception as e:
                 st.error(f"Erro: {e}")

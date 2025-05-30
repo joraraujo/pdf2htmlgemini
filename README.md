@@ -86,17 +86,7 @@ streamlit run app.py
 
 ```env
 # Chave da API Google GenAI
-GOOGLE_API_KEY=your_google_api_key_here
+GOOGLE_API_KEY=sua_chave_aqui
 ```
 
 ---
-
-## Contribuições
-
-Contribuições são bem-vindas! Sinta-se livre para abrir issues ou pull requests.
-
----
-
-## Licença
-
-Coloque aqui a licença do projeto (ex: MIT, GPL, etc.)

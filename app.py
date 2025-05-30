@@ -14,7 +14,7 @@ st.title("Conversor de PDF para HTML")
 api_key = os.getenv("GOOGLE_API_KEY")
 
 if not api_key:
-    st.error("❌ Chave da API não encontrada. Defina GOOGLE_API_KEY no arquivo .env")
+    st.error("Chave da API não encontrada. Defina GOOGLE_API_KEY no arquivo .env")
     st.stop()
 
 # Upload do arquivo PDF
@@ -37,6 +37,8 @@ if uploaded_file:
         ]
 
         config = types.GenerateContentConfig(
+            max_output_tokens=65536,
+            temperature=0,
             response_mime_type="text/plain",
             system_instruction=[
                 types.Part.from_text(text="""You are an expert assistant in web accessibility and semantic HTML (WCAG 2.1 AA).

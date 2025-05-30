@@ -2,7 +2,6 @@ import base64
 import streamlit as st
 from google import genai
 from google.genai import types
-from google.genai.types import GenerationConfig
 from dotenv import load_dotenv
 import os
 
@@ -56,13 +55,6 @@ if uploaded_file:
             ]
         )
 
-        generation_config = GenerationConfig(
-            temperature=0,
-            top_p=1,
-            top_k=1,
-            max_output_tokens=65536,
-        )
-
         output_html = ""
 
         with st.spinner("Gerando HTML..."):
@@ -71,7 +63,6 @@ if uploaded_file:
                     model="gemini-2.5-flash-preview-04-17",
                     contents=contents,
                     config=config,
-                    generation_config=generation_config,
                 ):
                     output_html += chunk.text
                 return output_html

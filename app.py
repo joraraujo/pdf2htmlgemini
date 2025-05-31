@@ -57,16 +57,21 @@ if uploaded_file:
         )
 
         output_html = ""
-        my_bar = st.progress(0, text="Gerando HTML...")
+        my_bar = st.progress(0, text="Preparando modelo...")  # exibe imediatamente
+        st.info("Iniciando a conversão... Isso pode levar alguns segundos.")
 
-        for i in range(10):
-            time.sleep(0.05)
-            my_bar.progress(i + 1, text="Preparando geração do HTML...")
-        
         try:
+            # Barra de progresso falsa inicial (10%)
+            for i in range(10):
+                time.sleep(0.05)
+                my_bar.progress(i + 1, text="Preparando modelo...")
+
+            # Progresso real com base nos chunks recebidos
             chunk_count = 0
-            max_chunks_estimate = 40  # número estimado de chunks (ajustável)
-            
+            max_chunks_estimate = 40  # valor estimado — pode ajustar
+
+            my_bar.progress(10, text="Gerando HTML...")  # troca de texto
+
             for chunk in client.models.generate_content_stream(
                 model="gemini-2.5-flash-preview-04-17",
                 contents=contents,
@@ -74,13 +79,11 @@ if uploaded_file:
             ):
                 output_html += chunk.text
                 chunk_count += 1
-                # Atualiza progresso com limite de 100%
-                progress = min(int((chunk_count / max_chunks_estimate) * 100), 100)
+                progress = min(10 + int((chunk_count / max_chunks_estimate) * 90), 100)
                 my_bar.progress(progress, text="Gerando HTML...")
 
-            # Limpa código extra
+            # Remoção de blocos de código Markdown
             output_html = output_html.replace("```html", "").replace("```", "")
-
             return output_html.strip()
 
         except Exception as e:

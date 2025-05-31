@@ -9,7 +9,6 @@ import os
 # Carrega variáveis do .env
 load_dotenv()
 
-# st.title("Conversor de PDF para HTML")
 # Definindo o layout em WideScreen
 st.set_page_config(layout="wide")
 
@@ -50,7 +49,7 @@ html_code = """
     font-size: 24px; 
     font-weight: bold; 
 '>
-   Comparador de Bulas
+   Conversor de PDF para HTML
 </div>
 """
 

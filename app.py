@@ -63,9 +63,8 @@ if uploaded_file:
         my_bar = st.progress(0, text=progress_text)
 
         try:
-            # Simulação de progresso falso
             for i in range(20):
-                time.sleep(0.1)  # pode ajustar o tempo conforme necessário
+                time.sleep(0.9)  # pode ajustar o tempo conforme necessário
                 my_bar.progress((i + 1) * 5, text=progress_text)  # progresso até 100%
 
             output_html = ""

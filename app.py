@@ -62,9 +62,9 @@ if uploaded_file:
         status_info.info("Iniciando a conversão... Isso pode levar alguns segundos.")
 
         try:
-            # Barra de progresso falsa inicial (10%)
+            # Barra de progresso inicial (10%)
             for i in range(10):
-                time.sleep(0.05)
+                time.sleep(0.30)
                 my_bar.progress(i + 1, text="Preparando modelo...")
 
             # Progresso real com base nos chunks recebidos

@@ -37,7 +37,6 @@ if uploaded_file:
         ]
 
         config = types.GenerateContentConfig(
-            temperature=0,
             response_mime_type="text/plain",
             system_instruction=[
                 types.Part.from_text(text="""You are an expert assistant in web accessibility and semantic HTML (WCAG 2.1 AA).

@@ -24,7 +24,7 @@ with col2:
     st.markdown(
         """
         <div style="display: flex; justify-content: flex-end;">
-            <img src="https://www.biolabfarma.com.br/wp-content/themes/biolabtheme/assets/images/tagline-viva-evolucao.png" style="max-width: 100%; height: auto;">
+            <img src="https://www.biolabfarma.com.br/wp-content/themes/biolabtheme/assets/images/tagline-viva-evolucao.png" style="max-width: 70%; height: auto;">
         </div>
         """,
         unsafe_allow_html=True

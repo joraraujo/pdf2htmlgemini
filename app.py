@@ -1,5 +1,6 @@
 import base64
 import streamlit as st
+import streamlit.components.v1 as components
 from google import genai
 from google.genai import types
 from dotenv import load_dotenv
@@ -8,7 +9,54 @@ import os
 # Carrega variáveis do .env
 load_dotenv()
 
-st.title("Conversor de PDF para HTML")
+# st.title("Conversor de PDF para HTML")
+# Definindo o layout em WideScreen
+st.set_page_config(layout="wide")
+
+# Definindo o layout com duas colunas
+col1, col2 = st.columns([1, 1])  # Duas colunas de tamanho igual
+
+# Logotipo na primeira coluna (alinhada à esquerda)
+with col1:
+    st.image("https://www.biolabfarma.com.br/wp-content/themes/biolabtheme/assets/images/logo-menu.png", width=150)
+
+# TAG 'Viva a Evolução' na segunda coluna (alinhada à direita)
+with col2:
+    st.markdown(
+        """
+        <div style="display: flex; justify-content: flex-end;">
+            <img src="https://www.biolabfarma.com.br/wp-content/themes/biolabtheme/assets/images/tagline-viva-evolucao.png" style="max-width: 100%; height: auto;">
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+# Código HTML e CSS para a faixa no cabeçalho
+html_code = """
+<div style='
+    background: #bfd730;
+    background: linear-gradient(133deg, #bfd730 10%, #008fc4 60%);
+    background: -webkit-linear-gradient(133deg, #bfd730 10%, #008fc4 60%);
+    background: -moz-linear-gradient(133deg, #bfd730 10%, #008fc4 60%);
+    margin: 0px 0px 0px 0px;
+    width: 100%;
+    position: fixed;
+    padding: 10px;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+    color: white;
+    font-family: Arial, sans-serif;
+    font-size: 24px; 
+    font-weight: bold; 
+'>
+   Comparador de Bulas
+</div>
+"""
+
+# Renderiza o HTML na aplicação Streamlit
+components.html(html_code, height=50)
+
 
 # Obtém a chave API da variável de ambiente
 api_key = os.getenv("GOOGLE_API_KEY")

@@ -57,29 +57,25 @@ if uploaded_file:
         )
 
         output_html = ""
-
-        # Barra de progresso
-        progress_text = "Aguarde, gerando HTML..."    
-        my_bar = st.progress(0, text=progress_text)
-
+        my_bar = st.progress(0, text="Gerando HTML...")
+        
         try:
-            for i in range(20):
-                time.sleep(0.9)  # pode ajustar o tempo conforme necessário
-                my_bar.progress((i + 1) * 5, text=progress_text)  # progresso até 100%
-
-            output_html = ""
+            chunk_count = 0
+            max_chunks_estimate = 40  # número estimado de chunks (ajustável)
+            
             for chunk in client.models.generate_content_stream(
                 model="gemini-2.5-flash-preview-04-17",
                 contents=contents,
                 config=config,
             ):
                 output_html += chunk.text
+                chunk_count += 1
+                # Atualiza progresso com limite de 100%
+                progress = min(int((chunk_count / max_chunks_estimate) * 100), 100)
+                my_bar.progress(progress, text="Gerando HTML...")
 
-            # Remoção de blocos de código ```html
-            if "```html" in output_html:
-                output_html = output_html.replace("```html", "")
-            if "```" in output_html:
-                output_html = output_html.replace("```", "")
+            # Limpa código extra
+            output_html = output_html.replace("```html", "").replace("```", "")
 
             return output_html.strip()
 
@@ -88,7 +84,7 @@ if uploaded_file:
             return None
 
         finally:
-            my_bar.empty()  # limpa a barra de progresso ao final
+            my_bar.empty()
 
             
     if uploaded_file:

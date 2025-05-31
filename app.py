@@ -58,7 +58,8 @@ if uploaded_file:
 
         output_html = ""
         my_bar = st.progress(0, text="Preparando modelo...")  # exibe imediatamente
-        st.info("Iniciando a conversão... Isso pode levar alguns segundos.")
+        status_info = st.empty()
+        status_info.info("Iniciando a conversão... Isso pode levar alguns segundos.")
 
         try:
             # Barra de progresso falsa inicial (10%)
@@ -92,6 +93,7 @@ if uploaded_file:
 
         finally:
             my_bar.empty()
+            status_info.empty()
 
             
     if uploaded_file:
@@ -108,7 +110,7 @@ if uploaded_file:
 
     if html_result:
         file_name = os.path.splitext(uploaded_file.name)[0] + ".html"
-        st.success("Conversão concluída!")
+        st.status_info("Conversão concluída!")
         st.download_button(
             label="Baixar arquivo HTML",
             data=html_result,

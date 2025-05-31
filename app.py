@@ -3,7 +3,6 @@ import streamlit as st
 from google import genai
 from google.genai import types
 from dotenv import load_dotenv
-import time
 import os
 
 # Carrega variáveis do .env
@@ -52,49 +51,32 @@ if uploaded_file:
                                         7. **Screen readers**: Use ARIA where appropriate (aria-label, aria-describedby, aria-live). All icons must have labels.
                                         8. **Forms**: Associate <label> with inputs. Use aria-invalid and show visible error messages. Provide clear feedback.
                                         9. **Validation**: HTML must be valid (W3C). Must pass tools like WAVE, axe, Lighthouse. Target: WCAG 2.1 AA.
-                                        **Output**: Return only the final HTML.""" )
+                                        10. **Output**: Return only the final HTML without the html block indicator '```html ```'.""" )
             ]
         )
 
         output_html = ""
-        my_bar = st.progress(0, text="Preparando modelo...")  # exibe imediatamente
-        status_info = st.empty()
-        status_info.info("Iniciando a conversão... Isso pode levar alguns segundos.")
 
-        try:
-            # Barra de progresso inicial (10%)
-            for i in range(10):
-                time.sleep(0.30)
-                my_bar.progress(i + 1, text="Preparando modelo...")
+        with st.spinner("Gerando HTML..."):
+            try:
+                for chunk in client.models.generate_content_stream(
+                    model="gemini-2.5-flash-preview-04-17",
+                    contents=contents,
+                    config=config,
+                ):
+                    output_html += chunk.text
+                
+                # Remove o indicador de bloco HTML se presente
+                if "```html" in output_html:
+                    output_html = output_html.replace("```html", "")
+                if "```" in output_html:
+                    output_html = output_html.replace("```", "")
+                
+                return output_html.strip()
 
-            # Progresso real com base nos chunks recebidos
-            chunk_count = 0
-            max_chunks_estimate = 40  # valor estimado — pode ajustar
-
-            my_bar.progress(10, text="Gerando HTML...")  # troca de texto
-
-            for chunk in client.models.generate_content_stream(
-                model="gemini-2.5-flash-preview-04-17",
-                contents=contents,
-                config=config,
-            ):
-                output_html += chunk.text
-                chunk_count += 1
-                progress = min(10 + int((chunk_count / max_chunks_estimate) * 90), 100)
-                my_bar.progress(progress, text="Gerando HTML...")
-
-            # Remoção de blocos de código Markdown
-            output_html = output_html.replace("```html", "").replace("```", "")
-            return output_html.strip()
-
-        except Exception as e:
-            st.error(f"Erro: {e}")
-            return None
-
-        finally:
-            my_bar.empty()
-            status_info.empty()
-
+            except Exception as e:
+                st.error(f"Erro: {e}")
+                return None
             
     if uploaded_file:
         if "last_filename" not in st.session_state or st.session_state["last_filename"] != uploaded_file.name:

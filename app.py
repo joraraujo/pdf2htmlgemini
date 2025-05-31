@@ -78,8 +78,6 @@ if uploaded_file:
                 st.error(f"Erro: {e}")
                 return None
             
-################### html_result = generate_html() ###############################################################
-
     if uploaded_file:
         if "last_filename" not in st.session_state or st.session_state["last_filename"] != uploaded_file.name:
             st.session_state["html_result"] = None
@@ -91,7 +89,6 @@ if uploaded_file:
         else:
             html_result = st.session_state["html_result"]
 
-#################################################################################################################
 
     if html_result:
         file_name = os.path.splitext(uploaded_file.name)[0] + ".html"

@@ -58,6 +58,10 @@ if uploaded_file:
 
         output_html = ""
         my_bar = st.progress(0, text="Gerando HTML...")
+
+        for i in range(10):
+            time.sleep(0.05)
+            my_bar.progress(i + 1, text="Preparando geração do HTML...")
         
         try:
             chunk_count = 0

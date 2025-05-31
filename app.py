@@ -51,7 +51,7 @@ if uploaded_file:
                                         7. **Screen readers**: Use ARIA where appropriate (aria-label, aria-describedby, aria-live). All icons must have labels.
                                         8. **Forms**: Associate <label> with inputs. Use aria-invalid and show visible error messages. Provide clear feedback.
                                         9. **Validation**: HTML must be valid (W3C). Must pass tools like WAVE, axe, Lighthouse. Target: WCAG 2.1 AA.
-                                        10. **Output**: Return only the final HTML without the html block indicator '```html ```'.""" )
+                                        10. **Output**: Return only the final HTML.""" )
             ]
         )
 

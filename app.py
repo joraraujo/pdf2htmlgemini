@@ -3,6 +3,7 @@ import streamlit as st
 from google import genai
 from google.genai import types
 from dotenv import load_dotenv
+import time
 import os
 
 # Carrega variáveis do .env
@@ -51,32 +52,45 @@ if uploaded_file:
                                         7. **Screen readers**: Use ARIA where appropriate (aria-label, aria-describedby, aria-live). All icons must have labels.
                                         8. **Forms**: Associate <label> with inputs. Use aria-invalid and show visible error messages. Provide clear feedback.
                                         9. **Validation**: HTML must be valid (W3C). Must pass tools like WAVE, axe, Lighthouse. Target: WCAG 2.1 AA.
-                                        10. **Output**: Return only the final HTML without the html block indicator '```html ```'.""" )
+                                        **Output**: Return only the final HTML.""" )
             ]
         )
 
         output_html = ""
 
-        with st.spinner("Gerando HTML..."):
-            try:
-                for chunk in client.models.generate_content_stream(
-                    model="gemini-2.5-flash-preview-04-17",
-                    contents=contents,
-                    config=config,
-                ):
-                    output_html += chunk.text
-                
-                # Remove o indicador de bloco HTML se presente
-                if "```html" in output_html:
-                    output_html = output_html.replace("```html", "")
-                if "```" in output_html:
-                    output_html = output_html.replace("```", "")
-                
-                return output_html.strip()
+        # Barra de progresso
+        progress_text = "Aguarde, gerando HTML..."    
+        my_bar = st.progress(0, text=progress_text)
 
-            except Exception as e:
-                st.error(f"Erro: {e}")
-                return None
+        try:
+            # Simulação de progresso falso
+            for i in range(20):
+                time.sleep(0.1)  # pode ajustar o tempo conforme necessário
+                my_bar.progress((i + 1) * 5, text=progress_text)  # progresso até 100%
+
+            output_html = ""
+            for chunk in client.models.generate_content_stream(
+                model="gemini-2.5-flash-preview-04-17",
+                contents=contents,
+                config=config,
+            ):
+                output_html += chunk.text
+
+            # Remoção de blocos de código ```html
+            if "```html" in output_html:
+                output_html = output_html.replace("```html", "")
+            if "```" in output_html:
+                output_html = output_html.replace("```", "")
+
+            return output_html.strip()
+
+        except Exception as e:
+            st.error(f"Erro: {e}")
+            return None
+
+        finally:
+            my_bar.empty()  # limpa a barra de progresso ao final
+
             
     if uploaded_file:
         if "last_filename" not in st.session_state or st.session_state["last_filename"] != uploaded_file.name:

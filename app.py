@@ -110,7 +110,7 @@ if uploaded_file:
 
     if html_result:
         file_name = os.path.splitext(uploaded_file.name)[0] + ".html"
-        st.status_info("Conversão concluída!")
+        st.success("Conversão concluída!")
         st.download_button(
             label="Baixar arquivo HTML",
             data=html_result,

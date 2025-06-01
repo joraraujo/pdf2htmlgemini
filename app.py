@@ -89,8 +89,8 @@ if uploaded_file:
                 types.Part.from_text(text="""You are an expert assistant in web accessibility and semantic HTML (WCAG 2.1 AA).
                                         **Task**: Convert a PDF into a complete, accessible HTML page. Preserve the original structure, layout, and images.
                                         Apply the following rules:
-                                        1. **Semantic structure**: Use <header>, <main>, <nav>, <section>, <footer>. Add a “Skip to main content” link. Use headings (<h1>–<h3>) in logical order.
-                                        2. **Menu**: Create a navigation menu with links to each section. Use <nav> and <ul> for the menu.
+                                        1. **Semantic structure**: Use <header>, <main>, <nav>, <section>, <footer>.Use headings (<h1>–<h3>) in logical order.
+                                        2. **Menu**: Create a navigation menu after the first main heading with links to each section. Use <nav> and <ul> for the menu.
                                         3. **Responsive design**: Use viewport meta tag. Tables must scroll on small screens (overflow-x: auto). Use relative units (%, em, rem).
                                         4. **Tables**: Use <caption>, <th scope=\"col/row\">, and headers/id if needed.
                                         5. **Images**: Include all images from the PDF with <img> tags. All must have alt text.

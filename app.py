@@ -90,15 +90,15 @@ if uploaded_file:
                                         **Task**: Convert a PDF into a complete, accessible HTML page. Preserve the original structure, layout, and images.
                                         Apply the following rules:
                                         1. **Semantic structure**: Use <header>, <main>, <nav>, <section>, <footer>. Add a “Skip to main content” link. Use headings (<h1>–<h3>) in logical order.
-                                        2. **Contrast**: Ensure text contrast is ≥ 4.5:1 (or 3:1 for large/bold text). Do not use color alone to convey meaning.
+                                        2. **Menu**: Create a navigation menu with links to each section. Use <nav> and <ul> for the menu.
                                         3. **Responsive design**: Use viewport meta tag. Tables must scroll on small screens (overflow-x: auto). Use relative units (%, em, rem).
                                         4. **Tables**: Use <caption>, <th scope=\"col/row\">, and headers/id if needed.
-                                        5. **Images**: Include all images from the PDF with <img> tags. All must have alt text. Use alt=\"\" if decorative.
+                                        5. **Images**: Include all images from the PDF with <img> tags. All must have alt text.
                                         6. **Keyboard access**: All interactive elements must be usable by keyboard. Include visible focus styles.
                                         7. **Screen readers**: Use ARIA where appropriate (aria-label, aria-describedby, aria-live). All icons must have labels.
-                                        8. **Forms**: Associate <label> with inputs. Use aria-invalid and show visible error messages. Provide clear feedback.
+                                        8. **Links**: All links must have descriptive text. No “click here” or “read more”. Use <a> tags with href attributes.
                                         9. **Validation**: HTML must be valid (W3C). Must pass tools like WAVE, axe, Lighthouse. Target: WCAG 2.1 AA.
-                                        10. **Output**: Return only the final HTML.""" )
+                                        **Output**: Return only the final HTML.""" )
             ]
         )
 

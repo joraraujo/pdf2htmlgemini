@@ -107,7 +107,7 @@ if uploaded_file:
         with st.spinner("Gerando HTML..."):
             try:
                 for chunk in client.models.generate_content_stream(
-                    model="gemini-2.5-flash-preview-04-17",
+                    model="gemini-2.5-flash",
                     contents=contents,
                     config=config,
                 ):

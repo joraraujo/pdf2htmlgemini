@@ -53,7 +53,7 @@ st.markdown("""
    Conversor de PDF para HTML
 </div>
 """,unsafe_allow_html=True
-    )
+)
 
 
 
@@ -150,4 +150,5 @@ if uploaded_file:
 
 else:
     st.info("Faça upload de um arquivo PDF para iniciar.")
+
 

@@ -31,7 +31,8 @@ with col2:
     )
 
 # Código HTML e CSS para a faixa no cabeçalho
-html_code = """
+
+st.markdown("""
 <div style='
     background: #bfd730;
     background: linear-gradient(133deg, #bfd730 10%, #008fc4 60%);
@@ -51,10 +52,10 @@ html_code = """
 '>
    Conversor de PDF para HTML
 </div>
-"""
+""",unsafe_allow_html=True
+    )
 
-# Renderiza o HTML na aplicação Streamlit
-components.html(html_code, height=50)
+
 
 
 # Obtém a chave API da variável de ambiente
@@ -149,3 +150,4 @@ if uploaded_file:
 
 else:
     st.info("Faça upload de um arquivo PDF para iniciar.")
+

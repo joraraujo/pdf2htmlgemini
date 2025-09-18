@@ -141,6 +141,62 @@ if uploaded_file:
     if html_result:
         file_name = os.path.splitext(uploaded_file.name)[0] + ".html"
         st.success("Conversão concluída!")
+        # Adiciona o script VLibras ao HTML gerado
+        vlibras_code = """
+    <!-- vlibras source -->
+    <div vw class="enabled" style="display:none;" id="vlibras">
+        <div vw-access-button class="active" id="vlibrasclick"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
+
+    <script>
+        window.addEventListener("load", function () {
+            var INDLibrasCount = 0;
+            var INDLibrasLoad = setInterval(() => {
+                try {
+                    if (interdeal.menu.querySelector("#btvlibras") == null && INDLibrasCount == 0) {
+                        INDLibrasCount = 1; // para o counter
+                        var b = document.createElement('button');
+                        b.setAttribute("id", "btvlibras");
+                        b.setAttribute("data-indopt", "vlibrasreader");
+                        b.setAttribute("role", "checkbox");
+                        b.setAttribute("aria-labelledby", "vlibrasreader_label_1 vlibrasreader_label_2");
+                        b.setAttribute("tabindex", "0");
+                        b.setAttribute("aria-checked", "false");
+
+                        b.innerHTML = '<svg version="1.2" baseProfile="tiny" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="126.04px" height="122.666px" viewBox="0 0 126.04 122.666" xml:space="preserve"> <path d="M108.875,61.237c0.002-10.126-4.098-19.334-10.711-25.996c-1.361-1.374-3.58-1.383-4.951-0.021c-1.372,1.361-1.381,3.577-0.02,4.951v-0.002c5.371,5.421,8.681,12.847,8.681,21.068c0.003,0.016,0,0.074,0.003,0.17c-0.032,8.219-3.401,15.663-8.842,21.071c-1.372,1.361-1.379,3.577-0.018,4.949c0.686,0.688,1.585,1.034,2.484,1.034c0.893,0,1.784-0.339,2.467-1.018c6.695-6.646,10.873-15.881,10.906-26.063V61.237z M109.015,19.872c-1.364-1.372-3.579-1.381-4.952-0.019c-1.369,1.363-1.378,3.579-0.016,4.951v-0.002c9.273,9.353,14.992,22.19,14.992,36.389c0,0.049,0,0.134,0.002,0.253c-0.058,14.206-5.878,27.071-15.267,36.398c-1.372,1.362-1.381,3.58-0.017,4.952c0.684,0.689,1.584,1.034,2.484,1.034c0.891,0,1.781-0.338,2.465-1.016c10.648-10.569,17.273-25.227,17.332-41.405v-0.217C126.042,45.092,119.536,30.468,109.015,19.872z M81.307,0.362c-1.189-0.59-2.621-0.451-3.677,0.355L35.889,32.576H3.502c-0.924,0-1.824,0.372-2.476,1.025C0.375,34.253,0,35.153,0,36.075v50.516c0,0.922,0.375,1.822,1.026,2.476c0.651,0.651,1.554,1.024,2.476,1.024H35.89l41.74,31.858c0.622,0.474,1.372,0.717,2.128,0.717c0.527,0,1.059-0.119,1.549-0.361c1.189-0.59,1.947-1.81,1.947-3.136V3.5C83.254,2.17,82.497,0.949,81.307,0.362z M76.255,112.092L39.196,83.809c-0.606-0.464-1.36-0.718-2.122-0.718H7V39.575h30.074c0.762,0,1.516-0.255,2.122-0.717l37.059-28.286V112.092z"></path> </svg> <span id="vlibras_label_1" aria-hidden="true" class="INDmenuBtn-text">V Libras</span> <span id="vlibras_label_2" aria-hidden="true" class="INDmenuBtn-desc">Aciona o V Libras</span>';
+
+                        // click
+                        b.addEventListener("click", function () {
+                            document.getElementById("vlibras").style.display = "block";
+                            document.getElementById("vlibrasclick").click();
+                        });
+
+                        var menu = interdeal.menu.querySelector('#INDmenuBtnzWrap');
+                        menu.append(b);
+
+                        clearInterval(INDLibrasLoad);
+                    }
+                } catch (error) {
+                    INDLibrasCount = 0; // para o counter
+                }
+            }, 1000);
+        })
+    </script>
+        """
+        
+        # Insere o código VLibras antes do fechamento do body
+        if "</body>" in html_result:
+            html_result = html_result.replace("</body>", vlibras_code + "\n</body>")
+        else:
+            html_result += vlibras_code
+
         st.download_button(
             label="Baixar arquivo HTML",
             data=html_result,
@@ -150,5 +206,3 @@ if uploaded_file:
 
 else:
     st.info("Faça upload de um arquivo PDF para iniciar.")
-
-
